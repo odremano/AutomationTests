@@ -9,6 +9,13 @@ export class transfATercerosPage {
     readonly cuentaOrigenOption: Locator;
     readonly cuentaDestinoSelector: Locator;
     readonly cuentaDestinoOption: Locator;
+    readonly otraCuentaDestino: Locator;
+    readonly cuentaNuevaDestinoSelector: Locator;
+    readonly cuentaNuevaHeader: Locator;
+    readonly descripcionInput: Locator;
+    readonly productoInput: Locator;
+    readonly confirmarCuentaNuevaButton: Locator;
+    readonly overlayLoader: Locator;
     readonly montoInput: Locator;
     readonly conceptoInput: Locator;
     readonly correoInput: Locator;
@@ -22,11 +29,18 @@ export class transfATercerosPage {
         this.page = page;
         this.transferirMenuLink = page.getByRole('list').locator('a').filter({ hasText: 'Transferir' });
         this.transferirMenuCompactLink = page.getByRole('listitem').filter({ hasText: 'Transferir' });
-        this.aTercerosLink = page.getByRole('navigation').locator('a').filter({ hasText: 'Terceros en Ficohsa' })
+        this.aTercerosLink = page.getByRole('navigation').locator('a').filter({ hasText: 'Terceros en Ficohsa' });
         this.cuentaOrigenSelector = page.locator('.baku-selected_product-not_selected').first();
         this.cuentaOrigenOption = page.locator('.lisboa').first();
-        this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon')
+        this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon');
         this.cuentaDestinoOption = page.getByText('Cuenta de cheques Prueba').first();
+        this.otraCuentaDestino = page.getByRole('button', { name: 'Otra' });
+        this.cuentaNuevaDestinoSelector = page.locator('.baku-selected_product-not_selected');
+        this.cuentaNuevaHeader = page.getByText('Datos del producto tercero');
+        this.descripcionInput = page.locator('fico-input-text-control').filter({ hasText: 'Descripción' }).getByRole('textbox');
+        this.productoInput = page.locator('fico-input-text-control').filter({ hasText: 'Número producto' }).getByRole('textbox').first();
+        this.confirmarCuentaNuevaButton = page.locator('icb-third-party-product-new a').filter({ hasText: 'Confirmar' }).first();
+        this.overlayLoader = page.locator('.salto_overlay.salto_overlay-show');
         this.montoInput = page.getByRole('textbox', { name: 'Ingrese monto' });
         this.conceptoInput = page.getByRole('textbox', { name: 'Concepto' });
         this.correoInput = page.locator('input[name="baseTransferLogicHelpers.secondNotifyTo"]');
@@ -70,6 +84,25 @@ export class transfATercerosPage {
         await expect(this.montoInput).toBeVisible();
     }
 
+    async seleccionarCuentaDestinoNueva(): Promise<void> {
+        await expect(this.otraCuentaDestino).toBeVisible();
+        await this.otraCuentaDestino.click();
+        await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
+        await this.cuentaNuevaDestinoSelector.click();
+        await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
+        await this.descripcionInput.click();
+        await this.descripcionInput.fill('');
+        await this.descripcionInput.pressSequentially('QA Automation', { delay: 60 });
+        await this.productoInput.click();
+        await this.productoInput.fill('');
+        await this.productoInput.pressSequentially('591121402', { delay: 60 });
+        await expect(this.confirmarCuentaNuevaButton).toBeEnabled({ timeout: 60_000 });
+        await this.page.waitForTimeout(20_000);
+        await this.confirmarCuentaNuevaButton.click();
+        await expect(this.overlayLoader).toBeHidden({ timeout: 20_000 });
+        await expect(this.montoInput).toBeVisible({ timeout: 20_000 });
+    }
+
     async completarFormulario(monto: string, concepto: string, correo: string): Promise<void> {
         await this.montoInput.click();
         await this.montoInput.fill('');
@@ -104,8 +137,9 @@ export class transfATercerosPage {
 
         await expect(this.confirmarButtonEnabled).toBeVisible({ timeout: 15_000 });
         await this.confirmarButtonEnabled.click();
+        await this.page.waitForTimeout(30_000);
 
-        await expect(this.transferenciaExitosaHeading).toBeVisible(({ timeout: 25_000 }));
+        await expect(this.transferenciaExitosaHeading).toBeVisible(({ timeout: 20_000 }));
     }
 
     async volverAInicio(): Promise<void> {

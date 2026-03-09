@@ -21,19 +21,20 @@ const getTransferThirdAccountsData = () => ({
 	correo: requiredEnv('TRANSFER_EMAIL'),
 });
 
-test('F.WB.05.002 - A cuenta favorita', async ({ page }) => {
-	test.setTimeout(180_000);
+test('F.WB.05.002 - A cuenta nueva', async ({ page }) => {
+    test.setTimeout(240_000);
 
-	const data = getTransferThirdAccountsData();
-	const loginPage = new LoginPage(page);
-	const transferPage = new transfATercerosPage(page);
+    const data = getTransferThirdAccountsData();
+    const loginPage = new LoginPage(page);
+    const transferPage = new transfATercerosPage(page);
 
-	await page.addLocatorHandler(loginPage.cookieTitle, async () => {
+    await page.addLocatorHandler(loginPage.cookieTitle, async () => {
 		if (await loginPage.cookieTitle.isVisible().catch(() => false)) {
 			await loginPage.cookieAcceptButton.click();
 			await expect(loginPage.cookieTitle).toBeHidden({ timeout: 10_000 });
 		}
 	});
+
 
 	await test.step('Precondición: login exitoso', async () => {
 		await loginPage.gotoLogin(data.loginUrl);
@@ -57,34 +58,26 @@ test('F.WB.05.002 - A cuenta favorita', async ({ page }) => {
 		await expect(transferPage.cuentaOrigenSelector).toBeVisible();
 	});
 
-	await test.step('Seleccionar cuenta origen y cuenta destino', async () => {
-		await transferPage.seleccionarCuentaOrigen();
-		await expect(transferPage.cuentaDestinoSelector).toBeVisible();
+    await test.step('Seleccionar cuenta origen y cuenta destino', async () => {
+        await transferPage.seleccionarCuentaOrigen();
+        await expect(transferPage.cuentaDestinoSelector).toBeVisible();
 
-		await transferPage.seleccionarCuentaDestino();
-		await expect(transferPage.montoInput).toBeVisible();
-	});
+        await transferPage.seleccionarCuentaDestinoNueva();
+        await expect(transferPage.montoInput).toBeVisible();
+    });
 
-	await test.step('Completar formulario de transferencia', async () => {
-		await transferPage.completarFormulario(data.monto, data.concepto, data.correo);
-		await expect(transferPage.montoInput).toHaveValue(data.monto);
-	});
+    await test.step('Completar formulario de transferencia', async () => {
+        await transferPage.completarFormulario(data.monto, data.concepto, data.correo);
+        await expect(transferPage.montoInput).toHaveValue(data.monto);
+    });
 
-	await test.step('Confirmar transferencia exitosa', async () => {
-		await transferPage.continuarYConfirmar();
-		await expect(transferPage.transferenciaExitosaHeading).toBeVisible();
-	});
+    await test.step('Confirmar transferencia exitosa', async () => {
+        await transferPage.continuarYConfirmar();
+        await expect(transferPage.transferenciaExitosaHeading).toBeVisible();
+    });
 
-	await test.step('Volver al inicio', async () => {
-		await transferPage.volverAInicio();
-		await expect(loginPage.userOptionsButton).toBeVisible();
-	});
-});
-
-test('F.WB.05.002 - A cuenta nueva', async ({ page }) => {
-    test.setTimeout(180_000);
-
-    const data = getTransferThirdAccountsData();
-    const loginPage = new LoginPage(page);
-    const transferPage = new transfATercerosPage(page);
+    await test.step('Volver al inicio', async () => {
+        await transferPage.volverAInicio();
+        await expect(loginPage.userOptionsButton).toBeVisible();
+    });
 });
