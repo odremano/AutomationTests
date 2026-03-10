@@ -1,31 +1,17 @@
 import { test, expect as baseExpect } from '@playwright/test';
+import { attachCookieBannerHandler, getLoginCredentials } from '../../../helpers/auth';
 import { LoginPage } from '../../../pages/LoginPage';
 
 const expect = baseExpect.configure({ timeout: 15_000 });
 
-const requiredEnv = (key: string): string => {
-  const value = process.env[key];
-  if (!value) {
-    throw new Error(`Falta la variable de entorno obligatoria: ${key}`);
-  }
-  return value;
-};
-
 test('F.WB.00.003 – Ingreso al sitio exitoso', async ({ page }) => {
   test.setTimeout(180_000);
 
-  const loginUrl = requiredEnv('LOGIN_URL');
-  const loginUsername = requiredEnv('LOGIN_USERNAME');
-  const loginPassword = requiredEnv('LOGIN_PASSWORD');
+  const { loginUrl, loginUsername, loginPassword } = getLoginCredentials();
 
   const loginPage = new LoginPage(page);
 
-  await page.addLocatorHandler(loginPage.cookieTitle, async () => {
-    if (await loginPage.cookieTitle.isVisible().catch(() => false)) {
-      await loginPage.cookieAcceptButton.click();
-      await expect(loginPage.cookieTitle).toBeHidden({ timeout: 10_000 });
-    }
-  });
+  await attachCookieBannerHandler(page, loginPage);
 
   await test.step('Abrir login y esperar disponibilidad del formulario', async () => {
     await loginPage.gotoLogin(loginUrl);
