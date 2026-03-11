@@ -40,6 +40,15 @@ export class LoginPage {
     await this.page.waitForLoadState('networkidle');
   }
 
+  async registerCookieBannerHandler(): Promise<void> {
+    await this.page.addLocatorHandler(this.cookieTitle, async () => {
+      if (await this.cookieTitle.isVisible().catch(() => false)) {
+        await this.cookieAcceptButton.click();
+        await expect(this.cookieTitle).toBeHidden({ timeout: 10_000 });
+      }
+    });
+  }
+
   async acceptCookiesIfVisible(): Promise<void> {
     try {
       await this.cookieTitle.waitFor({ state: 'visible', timeout: 20_000 });

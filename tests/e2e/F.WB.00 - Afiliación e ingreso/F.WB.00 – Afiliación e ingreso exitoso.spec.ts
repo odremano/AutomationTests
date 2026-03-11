@@ -1,5 +1,5 @@
 import { test, expect as baseExpect } from '@playwright/test';
-import { attachCookieBannerHandler, getLoginCredentials } from '../../../helpers/auth';
+import { getLoginCredentials } from '../../../helpers/auth';
 import { LoginPage } from '../../../pages/LoginPage';
 
 const expect = baseExpect.configure({ timeout: 15_000 });
@@ -11,7 +11,7 @@ test('F.WB.00.003 – Ingreso al sitio exitoso', async ({ page }) => {
 
   const loginPage = new LoginPage(page);
 
-  await attachCookieBannerHandler(page, loginPage);
+  await loginPage.registerCookieBannerHandler();
 
   await test.step('Abrir login y esperar disponibilidad del formulario', async () => {
     await loginPage.gotoLogin(loginUrl);

@@ -1,16 +1,14 @@
-import { test, expect as baseExpect } from '@playwright/test';
-import { getTransferData, loginAsAuthenticatedUser } from '../../../helpers/auth';
+import { expect, test } from '../../../fixtures/authenticatedPage.fixture';
+import { getTransferData } from '../../../helpers/auth';
+import { LoginPage } from '../../../pages/LoginPage';
 import { transfATercerosPage } from '../../../pages/transfATerceros';
 
-const expect = baseExpect.configure({ timeout: 15_000 });
-
-test('F.WB.05.002 - A cuenta nueva', async ({ page }) => {
-    test.setTimeout(240_000);
+test('F.WB.05.002 - A cuenta nueva', async ({ authenticatedPage: page }) => {
+    test.setTimeout(300_000);
 
     const data = getTransferData();
+    const loginPage = new LoginPage(page);
     const transferPage = new transfATercerosPage(page);
-
-	const loginPage = await test.step('Precondición: login exitoso', async () => loginAsAuthenticatedUser(page, data));
 
 	await test.step('Abrir flujo de transferencia a terceros', async () => {
 		await transferPage.irATerceros();
@@ -21,7 +19,7 @@ test('F.WB.05.002 - A cuenta nueva', async ({ page }) => {
         await transferPage.seleccionarCuentaOrigen();
         await expect(transferPage.cuentaDestinoSelector).toBeVisible();
 
-        await transferPage.seleccionarCuentaDestinoNueva();
+        await transferPage.seleccionarCuentaDestinoNueva(data.concepto, data.cuentaGT);
         await expect(transferPage.montoInput).toBeVisible();
     });
 

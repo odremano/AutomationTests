@@ -16,6 +16,7 @@ export type TransferData = LoginCredentials & {
 	monto: string;
 	concepto: string;
 	correo: string;
+	cuentaGT: string;
 };
 
 export const getLoginCredentials = (): LoginCredentials => ({
@@ -29,4 +30,5 @@ export const getTransferData = (): TransferData => ({
 	monto: requiredEnv('TRANSFER_AMOUNT'),
 	concepto: requiredEnv('TRANSFER_CONCEPT'),
 	correo: requiredEnv('TRANSFER_EMAIL'),
+	cuentaGT: requiredEnv('TRANSFER_ACCOUNT_GT')
 });

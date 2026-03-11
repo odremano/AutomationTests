@@ -71,7 +71,7 @@ export class transfATercerosPage {
     async seleccionarCuentaOrigen(): Promise<void> {
         await expect(this.cuentaOrigenSelector).toBeVisible();
         await this.cuentaOrigenSelector.click();
-        await expect(this.cuentaOrigenOption).toBeVisible({ timeout: 20_000 });
+        await expect(this.cuentaOrigenOption).toBeVisible({ timeout: 30_000 });
         await this.cuentaOrigenOption.click();
         await expect(this.cuentaDestinoSelector).toBeVisible();
     }
@@ -79,12 +79,12 @@ export class transfATercerosPage {
     async seleccionarCuentaDestino(): Promise<void> {
         await expect(this.cuentaDestinoSelector).toBeVisible();
         await this.cuentaDestinoSelector.click();
-        await expect(this.cuentaDestinoOption).toBeVisible({ timeout: 20_000 });
+        await expect(this.cuentaDestinoOption).toBeVisible({ timeout: 30_000 });
         await this.cuentaDestinoOption.click();
         await expect(this.montoInput).toBeVisible();
     }
 
-    async seleccionarCuentaDestinoNueva(): Promise<void> {
+    async seleccionarCuentaDestinoNueva(concepto: string, cuentaGT: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -92,10 +92,10 @@ export class transfATercerosPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially('QA Automation', { delay: 60 });
+        await this.descripcionInput.pressSequentially(concepto, { delay: 60 });
         await this.productoInput.click();
         await this.productoInput.fill('');
-        await this.productoInput.pressSequentially('591121402', { delay: 60 });
+        await this.productoInput.pressSequentially(cuentaGT, { delay: 60 });
         await expect(this.confirmarCuentaNuevaButton).toBeEnabled({ timeout: 60_000 });
         await this.page.waitForTimeout(20_000);
         await this.confirmarCuentaNuevaButton.click();

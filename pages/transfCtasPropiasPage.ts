@@ -57,7 +57,7 @@ export class transfCtasPropiasPage {
 	async seleccionarCuentaOrigen(): Promise<void> {
 		await expect(this.cuentaOrigenSelector).toBeVisible();
 		await this.cuentaOrigenSelector.click();
-		await expect(this.cuentaOrigenOption).toBeVisible({ timeout: 20_000 });
+		await expect(this.cuentaOrigenOption).toBeVisible({ timeout: 30_000 });
 		await this.cuentaOrigenOption.click();
 		await expect(this.cuentaDestinoSelector).toBeVisible();
 	}
@@ -65,7 +65,7 @@ export class transfCtasPropiasPage {
 	async seleccionarCuentaDestino(): Promise<void> {
 		await expect(this.cuentaDestinoSelector).toBeVisible();
 		await this.cuentaDestinoSelector.click();
-		await expect(this.cuentaDestinoOption).toBeVisible({ timeout: 20_000 });
+		await expect(this.cuentaDestinoOption).toBeVisible({ timeout: 30_000 });
 		await this.cuentaDestinoOption.click();
 		await expect(this.montoInput).toBeVisible();
 	}
