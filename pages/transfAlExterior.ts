@@ -29,7 +29,7 @@ export class transfAlExteriorPage {
         this.page = page;
         this.transferirMenuLink = page.getByRole('list').locator('a').filter({ hasText: 'Transferir' });
         this.transferirMenuCompactLink = page.getByRole('listitem').filter({ hasText: 'Transferir' });
-        this.aTercerosLink = page.getByRole('navigation').locator('a').filter({ hasText: 'Al Exterior' });
+        this.alExteriorLink = page.getByRole('navigation').locator('a').filter({ hasText: 'Al Exterior' });
         this.cuentaOrigenSelector = page.locator('.baku-selected_product-not_selected').first();
         this.cuentaOrigenOption = page.locator('.lisboa').first();
         this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon');
