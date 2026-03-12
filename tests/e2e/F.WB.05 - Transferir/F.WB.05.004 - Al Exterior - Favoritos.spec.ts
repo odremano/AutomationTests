@@ -1,7 +1,7 @@
 import { expect, test } from '../../../fixtures/authenticatedPage.fixture';
 import { getTransferData } from '../../../helpers/auth';
 import { LoginPage } from '../../../pages/LoginPage';
-import { transfAalExteriorPage } from '../../../pages/transfAlExterior';
+import { transfAlExteriorPage } from '../../../pages/transfAlExterior';
 
 test('F.WB.05.002 - A cuenta favorita', async ({ authenticatedPage: page }) => {
 	test.setTimeout(240_000);
@@ -11,7 +11,7 @@ test('F.WB.05.002 - A cuenta favorita', async ({ authenticatedPage: page }) => {
 	const transferPage = new transfAlExteriorPage(page);
 
 	await test.step('Abrir flujo de transferencia al Exterior', async () => {
-		await transferPage.irATerceros();
+		await transferPage.irAlExterior();
 		await expect(transferPage.cuentaOrigenSelector).toBeVisible();
 	});
 
