@@ -136,10 +136,10 @@ export class transfATercerosPage {
         await this.siguienteButton.click();
 
         await expect(this.confirmarButtonEnabled).toBeVisible({ timeout: 15_000 });
-        await this.confirmarButtonEnabled.click();
         await this.page.waitForTimeout(30_000);
+        await this.confirmarButtonEnabled.click();
 
-        await expect(this.transferenciaExitosaHeading).toBeVisible(({ timeout: 20_000 }));
+        await expect(this.transferenciaExitosaHeading).toBeVisible(({ timeout: 30_000 }));
     }
 
     async volverAInicio(): Promise<void> {

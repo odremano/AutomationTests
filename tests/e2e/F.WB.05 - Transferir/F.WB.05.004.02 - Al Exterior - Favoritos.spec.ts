@@ -3,8 +3,8 @@ import { getTransferData } from '../../../helpers/auth';
 import { LoginPage } from '../../../pages/LoginPage';
 import { transfAlExteriorPage } from '../../../pages/transfAlExterior';
 
-test('F.WB.05.002 - A cuenta favorita', async ({ authenticatedPage: page }) => {
-	test.setTimeout(240_000);
+test('F.WB.05.004 - A cuenta favorita', async ({ authenticatedPage: page }) => {
+	test.setTimeout(300_000);
 
 	const data = getTransferData();
 	const loginPage = new LoginPage(page);

@@ -17,6 +17,10 @@ export type TransferData = LoginCredentials & {
 	concepto: string;
 	correo: string;
 	cuentaGT: string;
+	codeABA: string;
+	codeSWIFT: string;
+	cuentaABA: string;
+	cuentaSWIFT: string;
 };
 
 export const getLoginCredentials = (): LoginCredentials => ({
@@ -30,5 +34,9 @@ export const getTransferData = (): TransferData => ({
 	monto: requiredEnv('TRANSFER_AMOUNT'),
 	concepto: requiredEnv('TRANSFER_CONCEPT'),
 	correo: requiredEnv('TRANSFER_EMAIL'),
-	cuentaGT: requiredEnv('TRANSFER_ACCOUNT_GT')
+	cuentaGT: requiredEnv('TRANSFER_ACCOUNT_GT'),
+	codeABA: requiredEnv('TRANSFER_CODE_ABA'),
+	codeSWIFT: requiredEnv('TRANSFER_CODE_SWIFT'),
+	cuentaABA: requiredEnv('TRANSFER_ACCOUNT_ABA'),
+	cuentaSWIFT: requiredEnv('TRANSFER_ACCOUNT_SWIFT'),
 });
