@@ -145,6 +145,6 @@ export class transfATercerosPage {
     async volverAInicio(): Promise<void> {
         await expect(this.inicioButton).toBeVisible();
         await this.inicioButton.click();
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 }

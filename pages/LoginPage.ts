@@ -112,7 +112,7 @@ export class LoginPage {
 
   async waitForDashboard(): Promise<void> {
     await this.page.waitForURL(/#\/administrationGeneral\/home/, { timeout: 80_000 });
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('domcontentloaded');
     await expect(this.userOptionsButton).toBeVisible();
   }
 }

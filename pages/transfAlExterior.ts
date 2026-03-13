@@ -60,10 +60,7 @@ export class transfAlExteriorPage {
         this.correoInput = page.locator('input[name="baseTransferLogicHelpers.secondNotifyTo"]');
         this.siguienteButton = page.locator('.step.fl.ipswich-step-visible.full-height > .ipswich-main-wizard-footer > .ipswich-main-buttons-fixed > icb-button:nth-child(2) > .ipswich-main-buttons-link').first();
         this.transferenciasHeading = page.getByRole('heading', { name: 'Cuenta de tercero a acreditar' }).locator('headline');
-        this.confirmarButtonEnabled = page
-            .locator('a')
-            .filter({ hasText: 'Confirmar' })
-            .nth(5)
+        this.confirmarButtonEnabled = page.getByRole('main').locator('a').filter({ hasText: 'Confirmar' });
         this.transferenciaExitosaHeading = page.getByRole('heading', { name: /Tu transferencia ha sido/i });
         this.inicioButton = page.getByRole('main').locator('a').filter({ hasText: 'Inicio' });
     }
@@ -198,8 +195,8 @@ export class transfAlExteriorPage {
         await expect(this.siguienteButton).not.toHaveClass(/inactive/, { timeout: 20_000 });
         await this.siguienteButton.click();
 
-        await expect(this.confirmarButtonEnabled).toBeVisible({ timeout: 25_000 });
         await this.page.waitForTimeout(30_000);
+        await expect(this.confirmarButtonEnabled).toBeVisible({ timeout: 25_000 });
         await this.confirmarButtonEnabled.click();
 
         await expect(this.transferenciaExitosaHeading).toBeVisible(({ timeout: 30_000 }));
@@ -208,6 +205,6 @@ export class transfAlExteriorPage {
     async volverAInicio(): Promise<void> {
         await expect(this.inicioButton).toBeVisible();
         await this.inicioButton.click();
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 }

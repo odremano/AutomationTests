@@ -39,7 +39,7 @@ test('F.WB.05.004 - A cuenta nueva ABA', async ({ authenticatedPage: page }) => 
     });
 });
 
-test('F.WB.05.004 - A cuenta nueva SWIFT', async ({ authenticatedPage: page }) => {
+test('F.WB.05.004.01 - A cuenta nueva SWIFT', async ({ authenticatedPage: page }) => {
     test.setTimeout(380_000);
 
     const data = getTransferData();
