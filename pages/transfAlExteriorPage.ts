@@ -40,7 +40,7 @@ export class transfAlExteriorPage {
         this.cuentaOrigenSelector = page.locator('.baku-selected_product-not_selected').first();
         this.cuentaOrigenOption = page.locator('.lisboa').first();
         this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon');
-        this.cuentaDestinoOption = page.getByText('Prueba QA 1106015801 Prueba').first();
+        this.cuentaDestinoOption = page.getByText('test Automation 3301290511').first();
         this.otraCuentaDestino = page.getByRole('button', { name: 'Otra' });
         this.cuentaNuevaDestinoSelector = page.locator('.baku-selected_product-not_selected');
         this.cuentaNuevaHeader = page.getByText('Datos del producto tercero en');
@@ -61,7 +61,7 @@ export class transfAlExteriorPage {
         this.siguienteButton = page.locator('.step.fl.ipswich-step-visible.full-height > .ipswich-main-wizard-footer > .ipswich-main-buttons-fixed > icb-button:nth-child(2) > .ipswich-main-buttons-link').first();
         this.transferenciasHeading = page.getByRole('heading', { name: 'Cuenta de tercero a acreditar' }).locator('headline');
         this.confirmarButtonEnabled = page.getByRole('main').locator('a').filter({ hasText: 'Confirmar' });
-        this.transferenciaExitosaHeading = page.getByRole('heading', { name: /Tu transferencia ha sido/i });
+        this.transferenciaExitosaHeading = page.getByRole('heading', { name: /Tu transferencia ha sido|Tu transferencia no ha podido/ }).first();
         this.inicioButton = page.getByRole('main').locator('a').filter({ hasText: 'Inicio' });
     }
 

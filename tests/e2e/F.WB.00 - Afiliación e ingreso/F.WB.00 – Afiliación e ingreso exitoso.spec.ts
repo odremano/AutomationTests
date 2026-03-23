@@ -29,6 +29,7 @@ test('F.WB.00.003 – Ingreso al sitio exitoso', async ({ page }) => {
   await test.step('Ingresar contraseña y autenticar', async () => {
     await loginPage.submitPassword(loginPassword);
     await loginPage.handleTrustedDeviceIfVisible();
+    await loginPage.handleTrustedDeviceErrorIfVisible();
     await loginPage.handleDuplicateSessionIfVisible();
   });
 

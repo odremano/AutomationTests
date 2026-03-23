@@ -16,22 +16,26 @@ export class LoginPage {
   readonly duplicateSessionContinueButton: Locator;
   readonly trustedDeviceTitle: Locator;
   readonly trustedDeviceAcceptButton: Locator;
+  readonly trustedDeviceErrorTitle: Locator;
+  readonly trustedDeviceErrorAcceptButton: Locator;
   readonly loginErrorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.cookieTitle = page.getByText('Uso de cookies', { exact: true });
-    this.cookieAcceptButton = page.locator('#modalCookie .ipswich-main-buttons-link');
+    this.cookieTitle = page.getByText('Uso de cookies y política de');
+    this.cookieAcceptButton = page.locator('a').filter({ hasText: 'Aceptar todas y seguir' });
     this.usernameInput = page.getByRole('textbox', { name: 'Ingrese su usuario' });
     this.userStepNextLink = page.locator('icb-login-step-user a').filter({ hasText: 'Siguiente' });
     this.passwordTitle = page.locator('icb-wizard-step-one-by-one').filter({ hasText: 'Contraseña Teclado virtual' }).locator('wizard-title');
     this.passwordInput = page.getByRole('textbox', { name: 'Ingrese su contraseña' });
     this.passwordStepNextLink = page.locator('icb-login-step-password a').filter({ hasText: 'Siguiente' });
-    this.userOptionsButton = page.getByTitle('Opciones de usuario');
+    this.userOptionsButton = page.getByTitle(/Opciones de usuario|User options/);
     this.duplicateSessionTitle = page.getByText('Advertencia de sesión');
     this.duplicateSessionContinueButton = page.locator('icb-login > icb-modalpopup > .parma > .parma-content-bottom > .parma-content-buttons > icb-button > .ipswich-main-buttons-link').filter({ hasText: 'Continuar' });
-    this.trustedDeviceTitle = page.locator('icb-login-step-password').getByText('Dispositivo de confianza', { exact: true });
-    this.trustedDeviceAcceptButton = page.locator('a').filter({ hasText: 'Aceptar' }).nth(3);
+    this.trustedDeviceTitle = page.getByText('Registro de dispositivo de').first();
+    this.trustedDeviceAcceptButton = page.locator('a').filter({ hasText: 'No' }).nth(2);
+    this.trustedDeviceErrorTitle = page.locator('icb-login-step-password').getByText('Dispositivo de confianza', { exact: true });
+    this.trustedDeviceErrorAcceptButton = page.locator('a').filter({ hasText: 'Aceptar' }).nth(3);
     this.loginErrorMessage = page.getByRole('heading', { name: 'Error: El usuario y contraseñ' });
   }
 
@@ -94,6 +98,17 @@ export class LoginPage {
       await expect(this.trustedDeviceTitle).toBeVisible();
       await this.trustedDeviceAcceptButton.click();
       await expect(this.trustedDeviceTitle).not.toBeVisible();
+    } catch {
+      // Modal not present, continue normally
+    }
+  }
+
+  async handleTrustedDeviceErrorIfVisible(): Promise<void> {
+    try {
+      await this.trustedDeviceErrorTitle.waitFor({ state: 'visible', timeout: 20_000 });
+      await expect(this.trustedDeviceErrorTitle).toBeVisible();
+      await this.trustedDeviceErrorAcceptButton.click();
+      await expect(this.trustedDeviceErrorTitle).not.toBeVisible();
     } catch {
       // Modal not present, continue normally
     }

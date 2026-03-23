@@ -38,7 +38,7 @@ export class transfATercerosPage {
         this.cuentaNuevaDestinoSelector = page.locator('.baku-selected_product-not_selected');
         this.cuentaNuevaHeader = page.getByText('Datos del producto tercero');
         this.descripcionInput = page.locator('fico-input-text-control').filter({ hasText: 'Descripción' }).getByRole('textbox');
-        this.productoInput = page.locator('fico-input-text-control').filter({ hasText: 'Número producto' }).getByRole('textbox').first();
+        this.productoInput = page.locator('fico-input-text-control').filter({ hasText: /Número producto|Número de producto o Cuenta/ }).getByRole('textbox').first();
         this.confirmarCuentaNuevaButton = page.locator('icb-third-party-product-new a').filter({ hasText: 'Confirmar' }).first();
         this.overlayLoader = page.locator('.salto_overlay.salto_overlay-show');
         this.montoInput = page.getByRole('textbox', { name: 'Ingrese monto' });

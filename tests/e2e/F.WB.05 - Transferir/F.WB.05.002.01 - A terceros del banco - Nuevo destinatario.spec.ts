@@ -1,7 +1,7 @@
 import { expect, test } from '../../../fixtures/authenticatedPage.fixture';
 import { getTransferData } from '../../../helpers/auth';
 import { LoginPage } from '../../../pages/LoginPage';
-import { transfATercerosPage } from '../../../pages/transfATerceros';
+import { transfATercerosPage } from '../../../pages/transfATercerosPage';
 
 test('F.WB.05.002 - A cuenta nueva', async ({ authenticatedPage: page }) => {
     test.setTimeout(300_000);
