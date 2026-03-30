@@ -22,8 +22,14 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.cookieTitle = page.getByText('Uso de cookies y política de');
-    this.cookieAcceptButton = page.locator('a').filter({ hasText: 'Aceptar todas y seguir' });
+    this.cookieTitle = page
+      .getByText('Uso de cookies', { exact: true })
+      .or(page.getByText('Uso de cookies y política de'))
+      .first();
+    this.cookieAcceptButton = page
+      .locator('#modalCookie > .parma > .parma-content-bottom > .parma-content-buttons > .fr > .ipswich-main-buttons-link')
+      .or(page.locator('a').filter({ hasText: 'Aceptar todas y seguir' }))
+      .first();
     this.usernameInput = page.getByRole('textbox', { name: 'Ingrese su usuario' });
     this.userStepNextLink = page.locator('icb-login-step-user a').filter({ hasText: 'Siguiente' });
     this.passwordTitle = page.locator('icb-wizard-step-one-by-one').filter({ hasText: 'Contraseña Teclado virtual' }).locator('wizard-title');
@@ -105,7 +111,7 @@ export class LoginPage {
 
   async handleTrustedDeviceErrorIfVisible(): Promise<void> {
     try {
-      await this.trustedDeviceErrorTitle.waitFor({ state: 'visible', timeout: 20_000 });
+      await this.trustedDeviceErrorTitle.waitFor({ state: 'visible', timeout: 30_000 });
       await expect(this.trustedDeviceErrorTitle).toBeVisible();
       await this.trustedDeviceErrorAcceptButton.click();
       await expect(this.trustedDeviceErrorTitle).not.toBeVisible();
@@ -116,7 +122,7 @@ export class LoginPage {
 
   async handleDuplicateSessionIfVisible(): Promise<void> {
     try {
-      await this.duplicateSessionTitle.waitFor({ state: 'visible', timeout: 20_000 });
+      await this.duplicateSessionTitle.waitFor({ state: 'visible', timeout: 30_000 });
       await expect(this.duplicateSessionTitle).toBeVisible();
       await this.duplicateSessionContinueButton.click();
       await expect(this.duplicateSessionTitle).not.toBeVisible();
