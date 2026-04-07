@@ -28,7 +28,7 @@ test('F.WB.05.004 - A cuenta favorita', async ({ authenticatedPage: page }) => {
 		await expect(transferPage.montoInput).toHaveValue(data.monto);
 	});
 
-	await test.step('Confirmar transferencia exitosa', async () => {
+	await test.step('Confirmar transferencia exitosa o fallida', async () => {
 		await transferPage.continuarYConfirmar();
 		await expect(transferPage.transferenciaExitosaHeading).toBeVisible();
 	});

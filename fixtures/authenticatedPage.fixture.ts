@@ -18,6 +18,7 @@ export const test = base.extend<AuthenticatedPageFixtures>({
 		await loginPage.submitUsername(requiredEnv('LOGIN_USERNAME'));
 		await loginPage.waitForPasswordStep();
 		await loginPage.submitPassword(requiredEnv('LOGIN_PASSWORD'));
+		await loginPage.handleTrustedDeviceErrorIfVisible();
 		await loginPage.handleTrustedDeviceIfVisible();
 		await loginPage.handleDuplicateSessionIfVisible();
 		await loginPage.waitForDashboard();

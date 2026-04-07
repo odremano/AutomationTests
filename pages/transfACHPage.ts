@@ -13,11 +13,9 @@ export class transfACHPage {
     readonly cuentaNuevaDestinoSelector: Locator;
     readonly cuentaNuevaHeader: Locator;
     readonly descripcionInput: Locator;
-    readonly countryInput: Locator;
-    readonly radioSwiftButton: Locator;
-    readonly codeInput: Locator;
-    readonly codeInexistentText: Locator;
-    readonly codeName: Locator;
+    readonly bankInput: Locator;
+    readonly productoInput: Locator;
+    readonly productInexistentText: Locator;
     readonly nameInput: Locator;
     readonly creditAccFinalInput: Locator;
     readonly addressInput: Locator;
@@ -36,7 +34,7 @@ export class transfACHPage {
         this.page = page;
         this.transferirMenuLink = page.getByRole('list').locator('a').filter({ hasText: 'Transferir' });
         this.transferirMenuCompactLink = page.getByRole('listitem').filter({ hasText: 'Transferir' });
-        this.ACHLink = page.getByRole('navigation').locator('a').filter({ hasText: 'ACH' });
+        this.ACHLink = page.locator('a').filter({ hasText: 'ACH' }).nth(2)
         this.cuentaOrigenSelector = page.locator('.baku-selected_product-not_selected').first();
         this.cuentaOrigenOption = page.locator('.lisboa').first();
         this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon');
@@ -44,19 +42,17 @@ export class transfACHPage {
         this.otraCuentaDestino = page.getByRole('button', { name: 'Otra' });
         this.cuentaNuevaDestinoSelector = page.locator('.baku-selected_product-not_selected');
         this.cuentaNuevaHeader = page.getByText('Datos del producto tercero en');
-        this.descripcionInput = page.locator('input[name="alias"]');
-        this.countryInput = page.locator('icb-record-render').filter({ hasText: 'Descripción País Ålanda' }).getByRole('combobox');
-        this.radioSwiftButton = page.locator('.naples-form-checkbox-right > .kinshasa > .kinshasa-radio_input > label > .kinshasa-radio_label-icon');
-        this.codeInput = page.locator('input[name="thirdPartyProductAdditionalInfo.correspondentBankRoutingNumber"]');
-        this.codeInexistentText = page.getByText('No hay ningún banco asociado');
-        this.codeName = page.locator('div:nth-child(6) > icb-textbox > .venecia-main-box > .venecia-main-form-content');
-        this.nameInput = page.locator('input[name="ownerName"]');
+        this.descripcionInput = page.locator('fico-input-text-control').filter({ hasText: 'Descripción' }).getByRole('textbox');
+        this.bankInput = page.locator('fico-select-control').filter({ hasText: /Banco/ }).getByRole('combobox');
+        this.productoInput = page.getByRole('textbox', { name: 'Texto de 10 caracteres de' });
+        this.productInexistentText = page.getByText('No hay ningún banco asociado');
+        this.nameInput = page.locator('fico-input-text-control').filter({ hasText: 'Nombre' }).getByRole('textbox');
         this.creditAccFinalInput = page.locator('input[name="thirdPartyProductNumber"]');
         this.addressInput = page.locator('input[name="ownerAddress"]');
         this.confirmarCuentaNuevaButton = page.locator('icb-third-party-product-new a').filter({ hasText: 'Confirmar' }).first();
         this.overlayLoader = page.locator('.salto_overlay.salto_overlay-show');
         this.montoInput = page.getByRole('textbox', { name: 'Ingrese monto' });
-        this.conceptoInput = page.getByRole('textbox', { name: 'Mínimo 12 caracteres, números' });
+        this.conceptoInput = page.getByRole('textbox', { name: 'Concepto' });
         this.correoInput = page.locator('input[name="baseTransferLogicHelpers.secondNotifyTo"]');
         this.siguienteButton = page.locator('.step.fl.ipswich-step-visible.full-height > .ipswich-main-wizard-footer > .ipswich-main-buttons-fixed > icb-button:nth-child(2) > .ipswich-main-buttons-link').first();
         this.transferenciasHeading = page.getByRole('heading', { name: 'Cuenta de tercero a acreditar' }).locator('headline');
@@ -65,7 +61,7 @@ export class transfACHPage {
         this.inicioButton = page.getByRole('main').locator('a').filter({ hasText: 'Inicio' });
     }
 
-    async irAlExterior(): Promise<void> {
+    async irACH(): Promise<void> {
         if (await this.transferirMenuLink.first().isVisible().catch(() => false)) {
             await this.transferirMenuLink.first().click();
         } else {
@@ -73,8 +69,8 @@ export class transfACHPage {
             await this.transferirMenuCompactLink.first().click();
         }
 
-        await expect(this.alExteriorLink).toBeVisible({ timeout: 20_000 });
-        await this.alExteriorLink.click();
+        await expect(this.ACHLink).toBeVisible({ timeout: 20_000 });
+        await this.ACHLink.click();
         await this.page.waitForLoadState('networkidle');
         await expect(this.cuentaOrigenSelector).toBeVisible();
     }
@@ -95,7 +91,7 @@ export class transfACHPage {
         await expect(this.montoInput).toBeVisible();
     }
 
-    async seleccionarCuentaDestinoNueva(codeABA: string, cuentaABA: string): Promise<void> {
+    async seleccionarCuentaDestinoNueva(description: string, cuentaACH: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -103,27 +99,17 @@ export class transfACHPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially('test Automation', { delay: 60 });
-        await expect(this.countryInput).toBeVisible();
-        await this.countryInput.click();
-        await this.countryInput.selectOption('840');
-        //await this.radioSwiftButton.click();
-        await this.codeInput.click();
-        await this.codeInput.fill('');
-        await this.codeInput.pressSequentially(codeABA, { delay: 60 });
-        await this.page.waitForTimeout(3_000);
-        await expect(this.codeInexistentText).toBeHidden({ timeout: 20_000 });
-        await expect(this.nameInput).toBeVisible({timeout: 20_000});
-        await this.codeInput.press('Tab');
+        await this.descripcionInput.pressSequentially(description, { delay: 60 });
+        await this.bankInput.click();
+        await this.bankInput.selectOption('10: Object');
+        await this.productoInput.click();
+        await this.productoInput.fill('');
+        await this.productoInput.pressSequentially(cuentaACH, { delay: 60 });
+        await this.nameInput.click();
         await this.nameInput.fill('');
-        await this.nameInput.pressSequentially('Test Automation', { delay: 60 });
-        await this.nameInput.press('Tab');
-        await this.creditAccFinalInput.fill('');
-        await this.creditAccFinalInput.pressSequentially(cuentaABA, { delay: 60 });
-        await this.creditAccFinalInput.press('Tab');
-        await this.addressInput.fill('');
-        await this.addressInput.pressSequentially('Test Address', { delay: 60 });
-        await expect(this.confirmarCuentaNuevaButton).toBeEnabled({ timeout: 10_000 });
+        await this.nameInput.pressSequentially(description, { delay: 60 });
+        await expect(this.confirmarCuentaNuevaButton).toBeEnabled({ timeout: 60_000 });
+        await this.page.waitForTimeout(10_000);
         await this.confirmarCuentaNuevaButton.click();
         await expect(this.overlayLoader).toBeHidden({ timeout: 20_000 });
         await expect(this.montoInput).toBeVisible({ timeout: 20_000 });

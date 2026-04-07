@@ -58,7 +58,7 @@ export class transfATercerosPage {
         if (await this.transferirMenuLink.first().isVisible().catch(() => false)) {
             await this.transferirMenuLink.first().click();
         } else {
-            await expect(this.transferirMenuCompactLink.first()).toBeVisible();
+            await expect(this.transferirMenuCompactLink.first()).toBeVisible({ timeout: 20_000 });
             await this.transferirMenuCompactLink.first().click();
         }
 

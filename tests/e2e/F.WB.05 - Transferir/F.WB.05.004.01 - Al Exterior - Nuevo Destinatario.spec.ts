@@ -64,7 +64,7 @@ test('F.WB.05.004.01 - A cuenta nueva SWIFT', async ({ authenticatedPage: page }
         await expect(transferPage.montoInput).toHaveValue(data.monto);
     });
 
-    await test.step('Confirmar transferencia exitosa', async () => {
+    await test.step('Confirmar transferencia exitosa o fallida', async () => {
         await transferPage.continuarYConfirmar();
         await expect(transferPage.transferenciaExitosaHeading).toBeVisible();
     });

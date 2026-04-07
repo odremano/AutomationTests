@@ -66,7 +66,7 @@ export class transfAlExteriorPage {
     }
 
     async irAlExterior(): Promise<void> {
-        if (await this.transferirMenuLink.first().isVisible().catch(() => false)) {
+        if (await this.transferirMenuLink.first().isVisible({timeout: 20_000}).catch(() => false)) {
             await this.transferirMenuLink.first().click();
         } else {
             await expect(this.transferirMenuCompactLink.first()).toBeVisible();
@@ -95,7 +95,7 @@ export class transfAlExteriorPage {
         await expect(this.montoInput).toBeVisible();
     }
 
-    async seleccionarCuentaDestinoNueva(codeABA: string, cuentaABA: string): Promise<void> {
+    async seleccionarCuentaDestinoNueva(concepto: string, codeABA: string, cuentaABA: string, description: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -103,9 +103,7 @@ export class transfAlExteriorPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially('test Automation', { delay: 60 });
-        await expect(this.countryInput).toBeVisible();
-        await this.countryInput.click();
+        await this.descripcionInput.pressSequentially(description , { delay: 60 }); 
         await this.countryInput.selectOption('840');
         //await this.radioSwiftButton.click();
         await this.codeInput.click();
@@ -116,7 +114,7 @@ export class transfAlExteriorPage {
         await expect(this.nameInput).toBeVisible({timeout: 20_000});
         await this.codeInput.press('Tab');
         await this.nameInput.fill('');
-        await this.nameInput.pressSequentially('Test Automation', { delay: 60 });
+        await this.nameInput.pressSequentially(concepto, { delay: 60 });
         await this.nameInput.press('Tab');
         await this.creditAccFinalInput.fill('');
         await this.creditAccFinalInput.pressSequentially(cuentaABA, { delay: 60 });
@@ -129,7 +127,7 @@ export class transfAlExteriorPage {
         await expect(this.montoInput).toBeVisible({ timeout: 20_000 });
     }
 
-    async seleccionarCuentaDestinoNuevaSwift(codeSWIFT: string, cuentaSWIFT: string): Promise<void> {
+    async seleccionarCuentaDestinoNuevaSwift(codeSWIFT: string, cuentaSWIFT: string, description: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -137,7 +135,7 @@ export class transfAlExteriorPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially('test Automation', { delay: 60 });
+        await this.descripcionInput.pressSequentially(description , { delay: 60 });
         await expect(this.countryInput).toBeVisible();
         await this.countryInput.click();
         await this.countryInput.selectOption('840');
@@ -150,7 +148,7 @@ export class transfAlExteriorPage {
         await expect(this.nameInput).toBeVisible({timeout: 20_000});
         await this.codeInput.press('Tab');
         await this.nameInput.fill('');
-        await this.nameInput.pressSequentially('Test Automation', { delay: 60 });
+        await this.nameInput.pressSequentially(description , { delay: 60 });
         await this.nameInput.press('Tab');
         await this.creditAccFinalInput.fill('');
         await this.creditAccFinalInput.pressSequentially(cuentaSWIFT, { delay: 60 });
@@ -173,8 +171,8 @@ export class transfAlExteriorPage {
         if (concepto) {
             await this.conceptoInput.click();
             await this.conceptoInput.fill('');
-            await this.conceptoInput.pressSequentially("Prueba transf Automation", { delay: 60 });
-            await expect(this.conceptoInput).toHaveValue("Prueba transf Automation");
+            await this.conceptoInput.pressSequentially(concepto, { delay: 60 });
+            await expect(this.conceptoInput).toHaveValue(concepto);
             await this.conceptoInput.press('Tab');
         }
 
