@@ -101,7 +101,7 @@ export class transfACHPage {
         await this.descripcionInput.fill('');
         await this.descripcionInput.pressSequentially(description, { delay: 60 });
         await this.bankInput.click();
-        await this.bankInput.selectOption('10: Object');
+        await this.bankInput.selectOption('10: Object'); //Mejorable a variable de entorno para no tener valor fijo.
         await this.productoInput.click();
         await this.productoInput.fill('');
         await this.productoInput.pressSequentially(cuentaACH, { delay: 60 });
