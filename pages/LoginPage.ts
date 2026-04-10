@@ -111,7 +111,7 @@ export class LoginPage {
 
   async handleTrustedDeviceErrorIfVisible(): Promise<void> {
     try {
-      await this.trustedDeviceErrorTitle.waitFor({ state: 'visible', timeout: 30_000 });
+      await this.trustedDeviceErrorTitle.waitFor({ state: 'visible', timeout: 15_000 });
       await expect(this.trustedDeviceErrorTitle).toBeVisible();
       await this.trustedDeviceErrorAcceptButton.click();
       await expect(this.trustedDeviceErrorTitle).not.toBeVisible();

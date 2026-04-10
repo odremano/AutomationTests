@@ -19,7 +19,12 @@ test('F.WB.05.004 - A cuenta nueva ABA', async ({ authenticatedPage: page }) => 
         await transferPage.seleccionarCuentaOrigen();
         await expect(transferPage.cuentaDestinoSelector).toBeVisible();
 
-        await transferPage.seleccionarCuentaDestinoNueva(data.codeABA, data.cuentaABA);
+        await transferPage.seleccionarCuentaDestinoNueva(
+            data.concepto,
+            data.codeABA,
+            data.cuentaABA,
+            data.descripcion
+        );
         await expect(transferPage.montoInput).toBeVisible();
     });
 
@@ -55,7 +60,7 @@ test('F.WB.05.004.01 - A cuenta nueva SWIFT', async ({ authenticatedPage: page }
         await transferPage.seleccionarCuentaOrigen();
         await expect(transferPage.cuentaDestinoSelector).toBeVisible();
 
-        await transferPage.seleccionarCuentaDestinoNuevaSwift(data.codeSWIFT, data.cuentaSWIFT);
+        await transferPage.seleccionarCuentaDestinoNuevaSwift(data.codeSWIFT, data.cuentaSWIFT, data.concepto, data.descripcion);
         await expect(transferPage.montoInput).toBeVisible();
     });
 

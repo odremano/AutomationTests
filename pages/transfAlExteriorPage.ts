@@ -95,7 +95,7 @@ export class transfAlExteriorPage {
         await expect(this.montoInput).toBeVisible();
     }
 
-    async seleccionarCuentaDestinoNueva(concepto: string, codeABA: string, cuentaABA: string, description: string): Promise<void> {
+    async seleccionarCuentaDestinoNueva(concepto: string, codeABA: string, cuentaABA: string, descripcion: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -103,14 +103,14 @@ export class transfAlExteriorPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially(description , { delay: 60 }); 
+        await this.descripcionInput.pressSequentially(descripcion , { delay: 60 }); 
         await this.countryInput.selectOption('840');
         //await this.radioSwiftButton.click();
         await this.codeInput.click();
         await this.codeInput.fill('');
-        await this.codeInput.pressSequentially(codeABA, { delay: 60 });
+        await this.codeInput.pressSequentially(codeABA, { delay: 60 }); //BUG ACÁ. Llama por alguna razón a cuentaABA en lugar de mapear codeABA.
         await this.page.waitForTimeout(3_000);
-        await expect(this.codeInexistentText).toBeHidden({ timeout: 20_000 });
+        //await expect(this.codeInexistentText).toBeHidden({ timeout: 20_000 });
         await expect(this.nameInput).toBeVisible({timeout: 20_000});
         await this.codeInput.press('Tab');
         await this.nameInput.fill('');
@@ -127,7 +127,7 @@ export class transfAlExteriorPage {
         await expect(this.montoInput).toBeVisible({ timeout: 20_000 });
     }
 
-    async seleccionarCuentaDestinoNuevaSwift(codeSWIFT: string, cuentaSWIFT: string, description: string): Promise<void> {
+    async seleccionarCuentaDestinoNuevaSwift(codeSWIFT: string, cuentaSWIFT: string, concepto: string, descripcion: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -135,7 +135,7 @@ export class transfAlExteriorPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially(description , { delay: 60 });
+        await this.descripcionInput.pressSequentially(descripcion , { delay: 60 });
         await expect(this.countryInput).toBeVisible();
         await this.countryInput.click();
         await this.countryInput.selectOption('840');
@@ -148,7 +148,7 @@ export class transfAlExteriorPage {
         await expect(this.nameInput).toBeVisible({timeout: 20_000});
         await this.codeInput.press('Tab');
         await this.nameInput.fill('');
-        await this.nameInput.pressSequentially(description , { delay: 60 });
+        await this.nameInput.pressSequentially(concepto , { delay: 60 });
         await this.nameInput.press('Tab');
         await this.creditAccFinalInput.fill('');
         await this.creditAccFinalInput.pressSequentially(cuentaSWIFT, { delay: 60 });

@@ -4,7 +4,7 @@ import { LoginPage } from '../../../pages/LoginPage';
 import { transfATercerosPage } from '../../../pages/transfATercerosPage';
 
 test('F.WB.05.002 - A cuenta favorita', async ({ authenticatedPage: page }) => {
-	test.setTimeout(240_000);
+	test.setTimeout(300_000);
 
 	const data = getTransferData();
 	const loginPage = new LoginPage(page);

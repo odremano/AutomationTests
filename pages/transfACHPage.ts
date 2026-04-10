@@ -91,7 +91,7 @@ export class transfACHPage {
         await expect(this.montoInput).toBeVisible();
     }
 
-    async seleccionarCuentaDestinoNueva(description: string, cuentaACH: string): Promise<void> {
+    async seleccionarCuentaDestinoNueva(descripcion: string, cuentaACH: string): Promise<void> {
         await expect(this.otraCuentaDestino).toBeVisible();
         await this.otraCuentaDestino.click();
         await expect(this.cuentaNuevaDestinoSelector).toBeVisible();
@@ -99,7 +99,7 @@ export class transfACHPage {
         await expect(this.cuentaNuevaHeader).toBeVisible({ timeout: 10_000 });
         await this.descripcionInput.click();
         await this.descripcionInput.fill('');
-        await this.descripcionInput.pressSequentially(description, { delay: 60 });
+        await this.descripcionInput.pressSequentially(descripcion, { delay: 60 });
         await this.bankInput.click();
         await this.bankInput.selectOption('10: Object'); //Mejorable a variable de entorno para no tener valor fijo.
         await this.productoInput.click();
@@ -107,7 +107,7 @@ export class transfACHPage {
         await this.productoInput.pressSequentially(cuentaACH, { delay: 60 });
         await this.nameInput.click();
         await this.nameInput.fill('');
-        await this.nameInput.pressSequentially(description, { delay: 60 });
+        await this.nameInput.pressSequentially(descripcion, { delay: 60 });
         await expect(this.confirmarCuentaNuevaButton).toBeEnabled({ timeout: 60_000 });
         await this.page.waitForTimeout(10_000);
         await this.confirmarCuentaNuevaButton.click();
