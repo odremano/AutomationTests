@@ -10,7 +10,7 @@ test('F.WB.05.003 - A cuenta nueva', async ({ authenticatedPage: page }) => {
     const loginPage = new LoginPage(page);
     const transferPage = new transfACHPage(page);
 
-	await test.step('Abrir flujo de transferencia al exterior', async () => {
+	await test.step('Abrir flujo de transferencia ACH', async () => {
 		await transferPage.irACH();
 		await expect(transferPage.cuentaOrigenSelector).toBeVisible();
 	});

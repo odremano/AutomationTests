@@ -38,7 +38,7 @@ export class transfACHPage {
         this.cuentaOrigenSelector = page.locator('.baku-selected_product-not_selected').first();
         this.cuentaOrigenOption = page.locator('.lisboa').first();
         this.cuentaDestinoSelector = page.locator('.stream-arrow_down_1.crawley-content-icon-arrow.baku-selected_product-icon');
-        this.cuentaDestinoOption = page.getByText('Prueba QA 1106015801 Prueba').first();
+        this.cuentaDestinoOption = page.locator('icb-third-party-product-row > .canton > div > icb-value-parser > .ibiza_value').first();
         this.otraCuentaDestino = page.getByRole('button', { name: 'Otra' });
         this.cuentaNuevaDestinoSelector = page.locator('.baku-selected_product-not_selected');
         this.cuentaNuevaHeader = page.getByText('Datos del producto tercero en');
